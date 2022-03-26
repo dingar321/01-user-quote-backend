@@ -20,7 +20,9 @@ The main purpose of the project is to learn full-stack development. The second p
 - Dino Garić
 
 ## Usefull link
-- https://tinyurl.com/yckkw29h
+- Directory structure: https://tinyurl.com/yckkw29h
+- Authentications (JWT Tokens): https://tinyurl.com/2spzsd4x
+- Password hashing: https://tinyurl.com/y25vtdvd
 
 ## Encountered errors
 - PosgreSQL's tool "pgAdmin" didnt sucesfully install on my computer database cluster initialisation failed. So i switched to "Docker" and created a container. After that was created i used an UDM called "DBeaver" to manipulate with my database.
