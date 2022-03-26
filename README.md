@@ -19,6 +19,9 @@ The main purpose of the project is to learn full-stack development. The second p
 ## Contributors
 - Dino Garić
 
+## Usefull link
+- https://tinyurl.com/yckkw29h
+
 ## Encountered errors
 - PosgreSQL's tool "pgAdmin" didnt sucesfully install on my computer database cluster initialisation failed. So i switched to "Docker" and created a container. After that was created i used an UDM called "DBeaver" to manipulate with my database.
 - When trying to generate a new migration, the terminal throws back *Error during migration generation: error: password authentication failed for user "Dino"*. The problem is that the ".env" and "ormconfig.js" file contain a diffrenet user. Still looking for a solution.
