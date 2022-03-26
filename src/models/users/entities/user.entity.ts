@@ -44,8 +44,8 @@ export class User{
 
     //1:1 relation 
     //user <--> quote
-    @OneToOne(type => Quote)
-    @JoinColumn()
+    @OneToOne(type => Quote, {nullable: true})
+    @JoinColumn({name: 'quote'})
     quote: Quote;
 
 }
