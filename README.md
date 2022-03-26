@@ -4,6 +4,8 @@ First project of the "SkillUp Mentor" program.
 ## General info
 Full-stack application that will allow the user to register, write one paragraph of a motivational quote, review other already registered users and their quotes and upvote or downvote already published quote.
 
+The project containts an ".env" file which needs to be configured before using.
+
 ## Purpose of the project
 The main purpose of the project is to learn full-stack development. The second purpose is to learn new technologies such as Typescript NestJs, PostgreSQL, TypeORM.
 
