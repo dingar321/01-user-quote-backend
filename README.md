@@ -7,7 +7,7 @@ Full-stack application that will allow the user to register, write one paragraph
 ## Purpose of the project
 The main purpose of the project is to learn full-stack development. The second purpose is to learn new technologies such as Typescript NestJs, PostgreSQL, TypeORM.
 
-## Technologies
+## echnologies
 - NestJs
 - PostgreSQL
 - DBeaver
@@ -15,7 +15,7 @@ The main purpose of the project is to learn full-stack development. The second p
 - Postman
 
 ## Contributors
-- Dino Garić
+ -Dino Garić
 
 ## Encountered errors
 - PosgreSQL's tool "pgAdmin" didnt sucesfully install on my computer database cluster initialisation failed. So i switched to "Docker" and created a container. After that was created i used an UDM called "DBeaver" to manipulate with my database.
