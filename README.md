@@ -1,4 +1,4 @@
-# 01-user-quote-backed
+# 01-user-quote-backend
 First project of the "SkillUp Mentor" program.
 
 ## General info
