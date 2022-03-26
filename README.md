@@ -9,7 +9,7 @@ The project containts an ".env" file which needs to be configured before using.
 ## Purpose of the project
 The main purpose of the project is to learn full-stack development. The second purpose is to learn new technologies such as Typescript NestJs, PostgreSQL, TypeORM.
 
-## echnologies
+## Technologies
 - NestJs
 - PostgreSQL
 - DBeaver
