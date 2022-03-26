@@ -29,12 +29,14 @@ export class UserController{
         return this.userService.createUser(createUserDto);
     }
 
+    /*
     //Edits a specific user in the database
     //with a specified id
     @Patch(':id')
     patchUser(@Param('id') id: number, @Body() updateUserdto: UpdateUserDto){
         return this.userService.updateUser(id, updateUserdto);
     }
+    */
 
     @Patch(':id')
     patchPassUser(@Param('id') id: number, @Body() UpdatePassUserDto: UpdatePassUserDto)
@@ -45,7 +47,7 @@ export class UserController{
     //Deletes a specific user in the database
     //with a specified id
     @Delete(':id')
-    deleteUser(@Param('id') id: number, @Body() body){
+    deleteUser(@Param('id') id: string, @Body() body){
         return this.userService.removeUser(id);
     }
 

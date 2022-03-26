@@ -25,7 +25,7 @@ import { UserModule } from './models/users/user.module';
       host: process.env.POSTGRESS_HOST,
       port: Number(process.env.POSTGRESS_PORT),
       username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
+      password: 'pass123',
       database: process.env.POSTGRESS_DATABASE,
       autoLoadEntities: true,
       //NOTICE: Disable in production!

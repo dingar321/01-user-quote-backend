@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { number } from "joi";
 import { Repository } from "typeorm";
@@ -7,31 +7,13 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./entities/user.entity";
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
 export class UserService{
     constructor(@InjectRepository(User) 
     private readonly userRepository: Repository<User>){}
-
-    /*
-    //Mockup:
-    private quote: Quote = {
-        quoteid: 1,
-        content: 'quote1'
-    }
-
-    private users: User[] = [
-        {
-            userid: 1,
-            email: 'dino@gmail.com',
-            firstname: 'dino',
-            lastname: 'garic',
-            password: '123',
-            quote: this.quote,
-        },
-    ];
-    */
 
     findAllUsers(){
         return this.userRepository.find();
@@ -45,8 +27,14 @@ export class UserService{
         return foundUser;
     }
 
-    createUser(createUserDto: CreateUserDto){
+    async createUser(createUserDto: CreateUserDto){
+        if ((await this.userRepository.findOne({ email: createUserDto.email }))){
+            throw new ConflictException('User already exist');
+          }
         const createdUser = this.userRepository.create(createUserDto);
+        //Hashing the password:
+        //https://docs.nestjs.com/security/encryption-and-hashing
+        createdUser.password = await bcrypt.hash(createdUser.password, await bcrypt.genSalt());
         return this.userRepository.save(createdUser);
     }
 
@@ -75,7 +63,7 @@ export class UserService{
         return this.userRepository.save(preloadedUser);
     }
 
-    async removeUser(id: number){
+    async removeUser(id: string){
         const foundUser = await this.userRepository.findOne(id)
         if(!foundUser){
             throw new NotFoundException('User #' + {id} + 'not found')

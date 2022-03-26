@@ -12,7 +12,7 @@ The main purpose of the project is to learn full-stack development. The second p
 - PostgreSQL
 - DBeaver
 - TypeORM
-- Postman
+- Swagger
 
 ## Contributors
  -Dino Garić
