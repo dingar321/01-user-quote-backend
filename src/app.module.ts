@@ -2,9 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from '@hapi/joi';
-import { JoinColumn } from 'typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './authentication/auth.module';
 import { QuoteModuel } from './models/quotes/quote.module';
 import { UserModule } from './models/users/user.module';
@@ -31,7 +28,7 @@ import { UserModule } from './models/users/user.module';
       //NOTICE: Disable in production!
       synchronize: true,
   })],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
