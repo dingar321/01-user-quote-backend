@@ -24,17 +24,6 @@ export class UserService{
         return foundUser;
     }
 
-    async createUser(createUserDto: CreateUserDto){
-        if ((await this.userRepository.findOne({ email: createUserDto.email }))){
-            throw new ConflictException('User already exist');
-          }
-        const createdUser = this.userRepository.create(createUserDto);
-        //Hashing the password:
-        //https://docs.nestjs.com/security/encryption-and-hashing
-        createdUser.password = await bcrypt.hash(createdUser.password, await bcrypt.genSalt());
-        return this.userRepository.save(createdUser);
-    }
-
     async updateUser(id: number, UpdateUserDto: any){
         const preloadedUser = await this.userRepository.preload({
             userid: +id,

@@ -1,5 +1,0 @@
-Generate migrations:
-npx typeorm migration:generate -n <name>
-----------------------------------
-Run migrations:
-npx typeorm migration:run
