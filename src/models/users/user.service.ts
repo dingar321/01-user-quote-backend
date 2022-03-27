@@ -30,7 +30,6 @@ export class UserService{
           }
         const createdUser = this.userRepository.create(createUserDto);
         //Hashing the password:
-        //https://docs.nestjs.com/security/encryption-and-hashing
         createdUser.password = await bcrypt.hash(createdUser.password, await bcrypt.genSalt());
         return this.userRepository.save(createdUser);
     }
