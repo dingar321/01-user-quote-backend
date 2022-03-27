@@ -1,16 +1,43 @@
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
 import { User } from "./entities/user.entity";
-import * as bcrypt from 'bcrypt';
 import { InjectRepository } from "@nestjs/typeorm";
-
+import { Injectable, NotFoundException } from "@nestjs/common";
+import * as bcrypt from 'bcrypt';
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class UserService{
     constructor(@InjectRepository(User) 
     private readonly userRepository: Repository<User>){}
+
+    //ENDPOINT: /me (Get the currently logged in user information)
+    async findLoggedUser(userId: number){
+        const loggedUser = await this.userRepository.findOne({
+            where: { userid: userId}
+        })
+        if(!loggedUser){
+            throw new NotFoundException('User #' + {userId} + 'not found');
+        }
+        return loggedUser;
+    }
+
+    //ENDPOINT: /me/update-password (Update the current users password)
+    async updatePassUser(userId: number, updatePassUser: UpdatePassUserDto){
+        const preloadedUser = await this.userRepository.preload({
+            userid: +userId,
+            password: updatePassUser.password,
+        });
+        if(!preloadedUser){
+            throw new NotFoundException('User #' + {userId} + 'not found')
+        }
+        preloadedUser.password = await bcrypt.hash(updatePassUser.password, await bcrypt.genSalt());
+        return this.userRepository.save(preloadedUser);
+    }
+
+    //-----------------------------------------------------------------
+
+/*
 
     findAllUsers(){
         return this.userRepository.find();
@@ -38,16 +65,7 @@ export class UserService{
         return this.userRepository.save(preloadedUser);
     }
 
-    async updatePassUser(id: number, updatePassUser: UpdatePassUserDto){
-        const preloadedUser = await this.userRepository.preload({
-            userid: +id,
-            password: updatePassUser.password,
-        });
-        if(!preloadedUser){
-            throw new NotFoundException('User #' + {id} + 'not found')
-        }
-        return this.userRepository.save(preloadedUser);
-    }
+
 
     async removeUser(id: string){
         const foundUser = await this.userRepository.findOne(id)
@@ -56,4 +74,5 @@ export class UserService{
         }
         return this.userRepository.remove(foundUser);
     }
+    */
 }

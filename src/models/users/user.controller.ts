@@ -1,15 +1,39 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
-import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { CreateUserDto } from "./dto/create-user.dto";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { GetLoggedUserById } from "src/utils/get-user-by-id.decorator";
 import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserService } from "./user.service";
 
 @ApiTags('users')
-@Controller('')
+@Controller()
 export class UserController{
     constructor(private readonly userService: UserService){}
-    
+
+    //ENDPOINT: /me (Get the currently logged in user information)
+    @ApiBearerAuth('jwtToken')
+    @UseGuards(AuthGuard('jwtToken'))
+    @Get('/me')
+    getLoggedUser(@GetLoggedUserById() userId: number){
+        return this.userService.findLoggedUser(userId);
+    }
+
+    //ENDPOINT: /me/update-password (Update the current users password)
+    //Edits the password of a specific user in the database with a specified id
+    @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
+    @ApiOkResponse({description: 'The user with the specified id has been found and the password has been updated'})
+    @ApiBearerAuth('jwtToken')
+    @UseGuards(AuthGuard('jwtToken'))
+    @Patch('/me/password-change:id')
+    patchPassUser(@GetLoggedUserById() userId: number, @Body() UpdatePassUserDto: UpdatePassUserDto)
+    {
+        return this.userService.updatePassUser(userId, UpdatePassUserDto);
+    }
+
+    //-----------------------------------------------------------------
+
+    /*
+
     //Returns all users from the database  
     @ApiOkResponse({description: 'All users returned OK'})
     @Get('users')
@@ -34,15 +58,7 @@ export class UserController{
         return this.userService.updateUser(id, updateUserdto);
     }
 
-    //Edits the password of a specific user in the database
-    //with a specified id
-    @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
-    @ApiOkResponse({description: 'The user with the specified id has been found and the password has been updated'})
-    @Patch('/me/password-change:id')
-    patchPassUser(@Param('id') id: number, @Body() UpdatePassUserDto: UpdatePassUserDto)
-    {
-        return this.userService.updateUser(id, UpdatePassUserDto);
-    }
+
 
     //Deletes a specific user in the database
     //with a specified id
@@ -53,5 +69,5 @@ export class UserController{
         return this.userService.removeUser(id);
     }
 
-
+*/
 }
