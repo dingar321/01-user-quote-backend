@@ -6,13 +6,13 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserService } from "./user.service";
 
 @ApiTags('users')
-@Controller('users')
+@Controller('')
 export class UserController{
     constructor(private readonly userService: UserService){}
     
     //Returns all users from the database  
     @ApiOkResponse({description: 'All users returned OK'})
-    @Get()
+    @Get('users')
     getAllUsers(@Query() paginationQuery){
         const { limit, offset } = paginationQuery;
         return this.userService.findAllUsers();
@@ -25,15 +25,6 @@ export class UserController{
     @Get(':id')
     getUser(@Param('id') id: number){
         return this.userService.findUser(id);
-    }
-
-    //Creates a user in the database
-    //Users must have a unique email (Error:409 if not unique)
-    @ApiCreatedResponse({description: 'The user has been created'})
-    @ApiConflictResponse({description: 'The user must register with a unique email'})
-    @Post()
-    postUser(@Body() createUserDto: CreateUserDto){
-        return this.userService.createUser(createUserDto);
     }
 
     //Edits a specific user in the database

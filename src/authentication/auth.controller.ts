@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/sign-in.dto";
 import { SignUpDto } from "./dto/sign-up.dto";
@@ -20,6 +20,8 @@ export class AuthController{
     }
 
     //Local registration
+    @ApiCreatedResponse({description: 'user has successfully registered'})
+    @ApiConflictResponse({description: 'User with that email already exists'})
     @Post('signup')
     signUpLocal(@Body() signUpDto: SignUpDto){
         return this.authService.signUpLocal(signUpDto);
