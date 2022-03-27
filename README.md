@@ -28,7 +28,7 @@ Library installation command: </br>
 
 - Bcrypt: A library to help you hash passwords. </br>
 Good read for safety tips: https://tinyurl.com/msxnrbw3 </br>
-Import: `import * as bcrypt from 'bcrypt';`
+Import: `import * as bcrypt from 'bcrypt';`</br> 
 Library installation command:  </br> 
 `$ npm i bcrypt` </br>
 `$ npm i -D @types/bcrypt` </br>
