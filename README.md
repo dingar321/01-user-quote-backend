@@ -15,7 +15,7 @@ The main purpose of the project is to learn full-stack development. The second p
 - Swagger
 
 ## Contributors
- -Dino Garić
+ - Dino Garić
 
 ## Encountered errors
 - PosgreSQL's tool "pgAdmin" didnt sucesfully install on my computer database cluster initialisation failed. So i switched to "Docker" and created a container. After that was created i used an UDM called "DBeaver" to manipulate with my database.
