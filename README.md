@@ -35,9 +35,15 @@ Library installation command:  </br>
 `$ npm i bcrypt` </br>
 `$ npm i -D @types/bcrypt` </br>
 
-- <b>Directory structure:</b> not a library, but a very good read </br>
+## Usefull links
+- How to handle your directory structure, a very good read </br>
  https://tinyurl.com/yckkw29h <br>
 
-## Usefull links
 - Authentication acces in NestJs Swagger Explorer: <br>
-https://stackoverflow.com/questions/54802832/is-it-possible-to-add-authentication-to-access-to-nestjs-swagger-explorer
+https://stackoverflow.com/questions/54802832/is-it-possible-to-add-authentication-to-access-to-nestjs-swagger-explorer<br>
+
+- One-to-one relations using TypeORM and how to handle them: <br>
+https://github.com/typeorm/typeorm/blob/master/docs/one-to-one-relations.md <br>
+
+- Cascades and how to handle them using TypeORM: <br>
+https://github.com/typeorm/typeorm/blob/master/docs/relations.md#cascades <br>

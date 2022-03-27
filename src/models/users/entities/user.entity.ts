@@ -43,7 +43,12 @@ export class User{
 
     //1:1 relation 
     //user <--> quote
-    @OneToOne(type => Quote, {nullable: true})
-    @JoinColumn({name: 'quote'})
+    @OneToOne(type => Quote, {
+        nullable: true, 
+        cascade: true
+    })
+    @JoinColumn({
+        name: 'quote'
+    })
     quote: Quote;
 }
