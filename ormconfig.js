@@ -5,7 +5,7 @@ module.exports = {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
-    entities: ['dist/**/*.entity.js'],
+    entities: ['dist/**/entities/*.entity.js'],
     migrations: ['dist/database/migrations/*.js'],
     cli: {
         migrationsDir: 'src/database/migrations',

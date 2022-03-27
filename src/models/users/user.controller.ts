@@ -22,14 +22,14 @@ export class UserController{
     //with a specified id 
     @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
     @ApiOkResponse({description: 'The user with the specified id has been found'})
-    @Get(':id')
+    @Get('users/:id')
     getUser(@Param('id') id: number){
         return this.userService.findUser(id);
     }
 
     //Edits a specific user in the database
     //with a specified id
-    @Patch(':id')
+    @Patch('users/:id')
     patchUser(@Param('id') id: number, @Body() updateUserdto: UpdateUserDto){
         return this.userService.updateUser(id, updateUserdto);
     }
@@ -48,7 +48,7 @@ export class UserController{
     //with a specified id
     @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
     @ApiOkResponse({description: 'The user with the specified id has been found and deleted'})
-    @Delete(':id')
+    @Delete('users/:id')
     deleteUser(@Param('id') id: string, @Body() body){
         return this.userService.removeUser(id);
     }

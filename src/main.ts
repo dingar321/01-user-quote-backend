@@ -15,12 +15,20 @@ async function bootstrap() {
 
   }));
 
-
   //Setup for "Swagger" testing
   const config = new DocumentBuilder()
     .setTitle('01-user-quote')
     .setDescription('The first project in the "SkillUp Mentor" program')
-    .setVersion('1.0')
+    .setVersion('1.0.0')
+    .addBearerAuth({ 
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      name: 'JWT',
+      description: 'Enter JWT token',
+      in: 'header',
+    },
+      'jwtToken',)
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);
