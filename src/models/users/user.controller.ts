@@ -21,6 +21,7 @@ export class UserController{
     //Returns a specific user from the database 
     //with a specified id 
     @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
+    @ApiOkResponse({description: 'The user with the specified id has been found'})
     @Get(':id')
     getUser(@Param('id') id: number){
         return this.userService.findUser(id);

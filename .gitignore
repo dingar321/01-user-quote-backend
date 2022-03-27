@@ -34,8 +34,3 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Env
-*.Env
-/info.txt
-/src/database/migration-info.txt
-/src/database/docker-compose-info.txt

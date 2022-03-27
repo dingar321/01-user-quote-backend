@@ -1,13 +1,10 @@
-import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { number } from "joi";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { Quote } from "../quotes/entities/quote.entity";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./entities/user.entity";
 import * as bcrypt from 'bcrypt';
+import { InjectRepository } from "@nestjs/typeorm";
 
 
 @Injectable()
