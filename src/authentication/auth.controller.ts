@@ -4,13 +4,12 @@ import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/sign-in.dto";
 import { SignUpDto } from "./dto/sign-up.dto";
 
-
-@ApiTags('authentication')
+@ApiTags('auth')
 @Controller()
 export class AuthController{
     constructor(private authService: AuthService){}
 
-    //Local login
+    //ENDPOINT: /login (Logs in an existing user with a password)
     @ApiOkResponse({description: 'User has successfully logged in'})
     @ApiNotFoundResponse({description: "User doesnt exists"})
     @ApiUnauthorizedResponse({description: "User is not authorized, wrong password or email"})
@@ -19,7 +18,7 @@ export class AuthController{
         return this.authService.signInLocal(signInDto);
     }
 
-    //Local registration
+    //ENDPOINT: /signup (Sign up to the system (username, password))
     @ApiCreatedResponse({description: 'user has successfully registered'})
     @ApiConflictResponse({description: 'User with that email already exists'})
     @Post('signup')
