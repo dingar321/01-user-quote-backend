@@ -1,11 +1,73 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { number } from "joi";
 import { Repository } from "typeorm";
+import { Quote } from "../quotes/entities/quote.entity";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./entities/user.entity";
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
 export class UserService{
-    constructor(@InjectRepository(User) private readonly userRepository: Repository<User>){}
+    constructor(@InjectRepository(User) 
+    private readonly userRepository: Repository<User>){}
 
+    findAllUsers(){
+        return this.userRepository.find();
+    }
+
+    async findUser(id: number){
+        const foundUser = await this.userRepository.findOne(id);
+        if(!foundUser){
+            throw new NotFoundException('User #' + {id} + 'not found');
+        }
+        return foundUser;
+    }
+
+    async createUser(createUserDto: CreateUserDto){
+        if ((await this.userRepository.findOne({ email: createUserDto.email }))){
+            throw new ConflictException('User already exist');
+          }
+        const createdUser = this.userRepository.create(createUserDto);
+        //Hashing the password:
+        //https://docs.nestjs.com/security/encryption-and-hashing
+        createdUser.password = await bcrypt.hash(createdUser.password, await bcrypt.genSalt());
+        return this.userRepository.save(createdUser);
+    }
+
+    async updateUser(id: number, UpdateUserDto: any){
+        const preloadedUser = await this.userRepository.preload({
+            userid: +id,
+            email: UpdateUserDto.email,
+            firstname: UpdateUserDto.firstname,
+            lastname: UpdateUserDto.lastname,
+            password: UpdateUserDto.password,
+        });
+        if(!preloadedUser){
+            throw new NotFoundException('User #' + {id} + 'not found')
+        }
+        return this.userRepository.save(preloadedUser);
+    }
+
+    async updatePassUser(id: number, updatePassUser: UpdatePassUserDto){
+        const preloadedUser = await this.userRepository.preload({
+            userid: +id,
+            password: updatePassUser.password,
+        });
+        if(!preloadedUser){
+            throw new NotFoundException('User #' + {id} + 'not found')
+        }
+        return this.userRepository.save(preloadedUser);
+    }
+
+    async removeUser(id: string){
+        const foundUser = await this.userRepository.findOne(id)
+        if(!foundUser){
+            throw new NotFoundException('User #' + {id} + 'not found')
+        }
+        return this.userRepository.remove(foundUser);
+    }
 }

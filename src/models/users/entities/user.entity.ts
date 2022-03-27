@@ -1,4 +1,3 @@
-import { type } from "os";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Quote } from "../../quotes/entities/quote.entity";
 
@@ -36,7 +35,7 @@ export class User{
     @Column({
         name: 'password',
         type: 'varchar',
-        length: 30,
+        length: 255,
         nullable: false
     })
     password: string;
@@ -44,8 +43,7 @@ export class User{
 
     //1:1 relation 
     //user <--> quote
-    @OneToOne(type => Quote)
-    @JoinColumn()
+    @OneToOne(type => Quote, {nullable: true})
+    @JoinColumn({name: 'quote'})
     quote: Quote;
-
 }

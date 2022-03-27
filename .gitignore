@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # Env
 *.Env
+/info.txt
+/src/database/migration-info.txt
+/src/database/docker-compose-info.txt
