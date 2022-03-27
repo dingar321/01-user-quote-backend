@@ -34,8 +34,11 @@ export class AuthService{
 
         //Return JSON Web Token 
         //if user was authenticated and found 
-        this.jwtService.sign({ sub: foundUser.userid, email: foundUser.email , type: 'user'}); 
+        return this.jwtService.sign({ sub: foundUser.userid, email: foundUser.email , type: 'user'}); 
     }
+
+
+    //---------------------------------------------------------------------------------------------------
 
     //Local registration
     //Info: When the user registers he has to login

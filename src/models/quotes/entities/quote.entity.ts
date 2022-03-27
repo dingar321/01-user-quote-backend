@@ -1,3 +1,4 @@
+import internal from "stream";
 import { Column, Entity, PrimaryColumnCannotBeNullableError, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('quotes')
@@ -14,5 +15,12 @@ export class Quote{
         
     })
     content: string;
+
+    @Column({
+        name: 'upvotes',
+        type: 'int',
+        nullable: false
+    })
+    upvotes: number;
 
 }
