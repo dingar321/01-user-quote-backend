@@ -7,11 +7,12 @@ import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
 import { UserService } from "./user.service";
 
 @ApiTags('users')
-@Controller('')
+@Controller()
 export class UserController{
     constructor(private readonly userService: UserService){}
 
     //ENDPOINT: /me (Get the currently logged in user information)
+
     @ApiOperation({ summary: 'Getting the logged in users information and quote(if they posted a quote)' })
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
@@ -87,15 +88,7 @@ export class UserController{
         return this.userService.updateUser(id, updateUserdto);
     }
 
-    //Edits the password of a specific user in the database
-    //with a specified id
-    @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
-    @ApiOkResponse({description: 'The user with the specified id has been found and the password has been updated'})
-    @Patch('/me/password-change:id')
-    patchPassUser(@Param('id') id: number, @Body() UpdatePassUserDto: UpdatePassUserDto)
-    {
-        return this.userService.updateUser(id, UpdatePassUserDto);
-    }
+
 
     //Deletes a specific user in the database
     //with a specified id

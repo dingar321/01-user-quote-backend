@@ -6,7 +6,7 @@ import { SignInDto } from "./dto/sign-in.dto";
 import { SignUpDto } from "./dto/sign-up.dto";
 import * as bcrypt from 'bcrypt';
 import { JwtService } from "@nestjs/jwt";
-import { NumberSchema } from "joi";
+
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AuthService{
     constructor(@InjectRepository(User)
     private readonly userRepository: Repository<User>, private jwtService: JwtService){}
 
-    //Local login
+    //ENDPOINT: /login (Logs in an existing user with a password)
     async signInLocal(signInDto: SignInDto){
         //Get user:
         const foundUser = await this.userRepository.findOne({ email: signInDto.email })
@@ -37,10 +37,7 @@ export class AuthService{
         return this.jwtService.sign({ sub: foundUser.userid, email: foundUser.email , type: 'user'}); 
     }
 
-
-    //---------------------------------------------------------------------------------------------------
-
-    //Local registration
+    //ENDPOINT: /signup (Sign up to the system (username, password))
     //Info: When the user registers he has to login
     async signUpLocal(signUpDto: SignUpDto){
         //Check if user with that email already exists

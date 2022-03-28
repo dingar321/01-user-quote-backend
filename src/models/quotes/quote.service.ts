@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { GetLoggedUserById } from "src/utils/get-user-by-id.decorator";
 import { Repository } from "typeorm";
 import { User } from "../users/entities/user.entity";
+import { CreateQuoteDto } from "./dto/create-quote.dto";
 import { PostQuoteDto } from "./dto/Post-quote.dto";
 import { Quote } from "./entities/quote.entity";
 
@@ -11,7 +12,6 @@ export class QuoteService{
     constructor(
         @InjectRepository(Quote) private readonly quoteRepository: Repository<Quote>, 
         @InjectRepository(User) private readonly userRepository: Repository<User>,){}
-
 
     //ENDPOINT: /myquotes (Post/update your quote)
     async createQuote(postQuoteDto: PostQuoteDto, userId: number){
