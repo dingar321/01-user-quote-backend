@@ -15,7 +15,7 @@ export class AuthService{
     private readonly userRepository: Repository<User>, private jwtService: JwtService){}
 
     //ENDPOINT: /login (Logs in an existing user with a password)
-    async signInLocal(signInDto: SignInDto){
+    async signInLocal(signInDto: SignInDto): Promise<string> {
         //Get user:
         const foundUser = await this.userRepository.findOne({ email: signInDto.email })
         
@@ -39,7 +39,7 @@ export class AuthService{
 
     //ENDPOINT: /signup (Sign up to the system (username, password))
     //Info: When the user registers he has to login
-    async signUpLocal(signUpDto: SignUpDto){
+    async signUpLocal(signUpDto: SignUpDto): Promise<User> {
         //Check if user with that email already exists
         //If he does send error
         if ((await this.userRepository.findOne({ email: signUpDto.email }))){

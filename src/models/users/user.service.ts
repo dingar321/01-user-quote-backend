@@ -14,7 +14,7 @@ export class UserService{
         @InjectRepository(User) private readonly userRepository: Repository<User>,){}
 
         //ENDPOINT: /me (Get the currently logged in user information)
-        async findLoggedUser(userId: number){
+        async findLoggedUser(userId: number): Promise<User>{
             const loggedUser = await this.userRepository.findOne({
                 where: { userid: userId}
             })
@@ -28,7 +28,7 @@ export class UserService{
         }
     
         //ENDPOINT: /me/update-password (Update the current users password)
-        async updatePassUser(userId: number, updatePassUser: UpdatePassUserDto){
+        async updatePassUser(userId: number, updatePassUser: UpdatePassUserDto): Promise<User>{
             const preloadedUser = await this.userRepository.preload({
                 userid: +userId,
                 password: updatePassUser.password,
@@ -41,7 +41,7 @@ export class UserService{
         }
     
         //ENDPOINT: /user/:id/upvote (Upvote a user quote)
-        async userQuoteUpVote(userId: number){
+        async userQuoteUpVote(userId: number): Promise<User>{
             //Get user:
             const foundUser =  await this.userRepository.findOne(userId,{
                 relations: ['quote']
@@ -60,11 +60,11 @@ export class UserService{
                 content: foundUser.quote.content,
                 upvotes: foundUser.quote.upvotes + 1,
             })
-            return await this.quoteRepository.save(UsersQuote);
+            return await this.userRepository.save(foundUser);
         }
     
         //ENDPOINT: /user/:id/downvote (Downvote user quote)
-        async userQuoteDownVote(userId: number){
+        async userQuoteDownVote(userId: number) : Promise<User>{
             //Get user:
             const foundUser =  await this.userRepository.findOne(userId,{
                 relations: ['quote']
@@ -83,78 +83,6 @@ export class UserService{
                 content: foundUser.quote.content,
                 upvotes: foundUser.quote.upvotes - 1,
             })
-            return await this.quoteRepository.save(UsersQuote);
+            return await this.userRepository.save(foundUser);
         }
-    
-    
-        //-----------------------------------------------------------------
-    
-    /*
-    
-    >>>>>>> Stashed changes
-
-    //ENDPOINT: /me (Get the currently logged in user information)
-    async findLoggedUser(userId: number){
-        const loggedUser = await this.userRepository.findOne({
-            where: { userid: userId}
-        })
-        if(!loggedUser){
-            throw new NotFoundException('User #' + {userId} + 'not found');
-        }
-        return loggedUser;
-    }
-
-    //ENDPOINT: /me/update-password (Update the current users password)
-    async updatePassUser(userId: number, updatePassUser: UpdatePassUserDto){
-        const preloadedUser = await this.userRepository.preload({
-            userid: +userId,
-            password: updatePassUser.password,
-        });
-        if(!preloadedUser){
-            throw new NotFoundException('User #' + {userId} + 'not found')
-        }
-        preloadedUser.password = await bcrypt.hash(updatePassUser.password, await bcrypt.genSalt());
-        return this.userRepository.save(preloadedUser);
-    }
-
-    //-----------------------------------------------------------------
-
-/*
-
-    findAllUsers(){
-        return this.userRepository.find();
-    }
-
-    async findUser(id: number){
-        const foundUser = await this.userRepository.findOne(id);
-        if(!foundUser){
-            throw new NotFoundException('User #' + {id} + 'not found');
-        }
-        return foundUser;
-    }
-
-    async updateUser(id: number, UpdateUserDto: any){
-        const preloadedUser = await this.userRepository.preload({
-            userid: +id,
-            email: UpdateUserDto.email,
-            firstname: UpdateUserDto.firstname,
-            lastname: UpdateUserDto.lastname,
-            password: UpdateUserDto.password,
-        });
-        if(!preloadedUser){
-            throw new NotFoundException('User #' + {id} + 'not found')
-        }
-        return this.userRepository.save(preloadedUser);
-    }
-
-
-
-    async removeUser(id: string){
-        const foundUser = await this.userRepository.findOne(id)
-        if(!foundUser){
-            throw new NotFoundException('User #' + {id} + 'not found')
-        }
-        return this.userRepository.remove(foundUser);
-    }
-    */
 }

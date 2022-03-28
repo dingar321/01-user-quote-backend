@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetLoggedUserById } from "src/utils/get-user-by-id.decorator";
+import { User } from "../users/entities/user.entity";
 import { PostQuoteDto } from "./dto/Post-quote.dto";
 import { QuoteService } from "./quote.service";
 
@@ -16,7 +17,7 @@ export class QuoteController{
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @Post('myquotes')
-    postQuote(@Body() postQuoteDto: PostQuoteDto, @GetLoggedUserById() userId: number){
+    postQuote(@Body() postQuoteDto: PostQuoteDto, @GetLoggedUserById() userId: number): Promise<User> {
         return this.quoteService.createQuote(postQuoteDto, userId);
     }
 }

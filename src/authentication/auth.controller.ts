@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { User } from "src/models/users/entities/user.entity";
 import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/sign-in.dto";
 import { SignUpDto } from "./dto/sign-up.dto";
@@ -15,7 +16,7 @@ export class AuthController{
     @ApiNotFoundResponse({description: "User doesnt exists"})
     @ApiUnauthorizedResponse({description: "User is not authorized, wrong password or email"})
     @Post('login')
-    signInLocal(@Body() signInDto: SignInDto){
+    signInLocal(@Body() signInDto: SignInDto): Promise<string> {
         return this.authService.signInLocal(signInDto);
     }
 
@@ -24,7 +25,7 @@ export class AuthController{
     @ApiCreatedResponse({description: 'user has successfully registered'})
     @ApiConflictResponse({description: 'User with that email already exists'})
     @Post('signup')
-    signUpLocal(@Body() signUpDto: SignUpDto){
+    signUpLocal(@Body() signUpDto: SignUpDto): Promise<User> {
         return this.authService.signUpLocal(signUpDto);
     }
 

@@ -3,8 +3,10 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } f
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { GetLoggedUserById } from "src/utils/get-user-by-id.decorator";
+import { Quote } from "../quotes/entities/quote.entity";
 import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
 import { UserService } from "./user.service";
+import { User } from "c:/Users/Dino/Documents/GitHub/01-user-quote-backend/src/models/users/entities/user.entity";
 
 @ApiTags('users')
 @Controller()
@@ -17,7 +19,7 @@ export class UserController{
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @Get('/me')
-    getLoggedUser(@GetLoggedUserById() userId: number){
+    getLoggedUser(@GetLoggedUserById() userId: number): Promise<User>{
         return this.userService.findLoggedUser(userId);
     }
 
@@ -29,8 +31,7 @@ export class UserController{
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @Patch('/me/password-change:id')
-    patchPassUser(@GetLoggedUserById() userId: number, @Body() updatePassUserDto: UpdatePassUserDto): Promise<import("c:/Users/Dino/Documents/GitHub/01-user-quote-backend/src/models/users/entities/user.entity").User>
-    {
+    patchPassUser(@GetLoggedUserById() userId: number, @Body() updatePassUserDto: UpdatePassUserDto): Promise<User>{
         return this.userService.updatePassUser(userId, updatePassUserDto);
     }
 
@@ -43,7 +44,7 @@ export class UserController{
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @Get('users/:id/upvote')
-    userQuoteUpVote(@Param('id') userId: number){
+    userQuoteUpVote(@Param('id') userId: number): Promise<User>{
         return this.userService.userQuoteUpVote(userId);
     }
 
@@ -56,48 +57,7 @@ export class UserController{
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @Get('users/:id/downvote')
-    userQuoteDownVote(@Param('id') userId: number){
+    userQuoteDownVote(@Param('id') userId: number): Promise<User>{
         return this.userService.userQuoteDownVote(userId);
     }
-
-    //-----------------------------------------------------------------
-
-    /*
-
-    //Returns all users from the database  
-    @ApiOkResponse({description: 'All users returned OK'})
-    @Get('users')
-    getAllUsers(@Query() paginationQuery){
-        const { limit, offset } = paginationQuery;
-        return this.userService.findAllUsers();
-    }
-
-    //Returns a specific user from the database 
-    //with a specified id 
-    @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
-    @ApiOkResponse({description: 'The user with the specified id has been found'})
-    @Get('users/:id')
-    getUser(@Param('id') id: number){
-        return this.userService.findUser(id);
-    }
-
-    //Edits a specific user in the database
-    //with a specified id
-    @Patch('users/:id')
-    patchUser(@Param('id') id: number, @Body() updateUserdto: UpdateUserDto){
-        return this.userService.updateUser(id, updateUserdto);
-    }
-
-
-
-    //Deletes a specific user in the database
-    //with a specified id
-    @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
-    @ApiOkResponse({description: 'The user with the specified id has been found and deleted'})
-    @Delete('users/:id')
-    deleteUser(@Param('id') id: string, @Body() body){
-        return this.userService.removeUser(id);
-    }
-
-*/
 }
