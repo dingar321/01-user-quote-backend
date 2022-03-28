@@ -1,3 +1,4 @@
+
 # 01-user-quote-backend
 ## General info
 This is the first project in the "SkillUp Mentor" program. The assignment is a full-stack application that allows the users to register and login, write *one* paragraph of a motivational quote, view other users quotes and vote on them eq. Upvote and down vote. Technologies that will be used in this project: Typescript NestJs, PostgreSQL, DBeaver, Docker, Swagger.
@@ -47,3 +48,9 @@ https://github.com/typeorm/typeorm/blob/master/docs/one-to-one-relations.md <br>
 
 - Cascades and how to handle them using TypeORM: <br>
 https://github.com/typeorm/typeorm/blob/master/docs/relations.md#cascades <br>
+
+- Why working with UUIDs instead of IDs is better <br>
+https://itnext.io/why-working-with-uuids-instead-of-ids-is-better-b60d22caf601 <br>
+
+- HTTP - Responses: <br>
+https://www.tutorialspoint.com/http/http_responses.htm <br>

@@ -4,6 +4,7 @@ import { Quote } from "../../quotes/entities/quote.entity";
 @Entity('users')
 export class User{
 
+    //uuid
     @PrimaryGeneratedColumn({name: 'user_id'})
     userid: number;
 
@@ -36,7 +37,8 @@ export class User{
         name: 'password',
         type: 'varchar',
         length: 255,
-        nullable: false
+        nullable: false,
+        select: false 
     })
     password: string;
 

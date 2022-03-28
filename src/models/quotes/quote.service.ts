@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { GetLoggedUserById } from "src/utils/get-user-by-id.decorator";
 import { Repository } from "typeorm";
@@ -14,6 +14,10 @@ export class QuoteService{
 
     //ENDPOINT: /myquotes (Post/update your quote)
     async createQuote(postQuoteDto: PostQuoteDto, userId: number): Promise<User> {
+        //Check if content in the quote is not too long
+        if(postQuoteDto.content.length >= 300){
+            throw new BadRequestException("Content in quote must not exceed 300 characters");
+        }
         //Check if quote already exists, if it does the method throws an error
         if ((await this.quoteRepository.findOne({ content: postQuoteDto.content }))){
             throw new ConflictException('Quote with this content already exists');

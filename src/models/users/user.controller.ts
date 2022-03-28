@@ -1,7 +1,8 @@
 
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { ApiBadGatewayResponse, ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { get } from "http";
 import { GetLoggedUserById } from "src/utils/get-user-by-id.decorator";
 import { Quote } from "../quotes/entities/quote.entity";
 import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
@@ -40,7 +41,7 @@ export class UserController{
     //Can only apply to users that have a quote
     @ApiOperation({ summary: 'Upvotes a selected users quote' })
     @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
-    @ApiUnauthorizedResponse({description: "user doesnt have a quote, cannot upvote"})
+    @ApiBadRequestResponse({description: "user doesnt have a quote, cannot upvote"})
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @Get('users/:id/upvote')
@@ -53,11 +54,30 @@ export class UserController{
     //Can only apply to users that have a quote
     @ApiOperation({ summary: 'Downvotes a selected users quote' })
     @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
-    @ApiUnauthorizedResponse({description: "user doesnt have a quote, cannot downvote"})
+    @ApiBadRequestResponse({description: "user doesnt have a quote, cannot downvote"})
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @Get('users/:id/downvote')
     userQuoteDownVote(@Param('id') userId: number): Promise<User>{
         return this.userService.userQuoteDownVote(userId);
     }
+
+    //ENDPOINT: /user/:id/ (List username & result of votes of a user quote)
+    //Gets a specific user with a specified id and 
+    //Gets his information, quote and number of votes 
+    @ApiOperation({ summary: 'Gets users information, quote and number of votes' })
+    @ApiNotFoundResponse({description: 'The user with the specified id doesnt exists'})
+    @Get('user/:id')
+    getUserById(@Param('id') userId: number): Promise<User>{
+        return this.userService.findUserById(userId);
+    }
+
+    //ENDPOINT: /list (List users and quotes in a most upvoted to least liked quotes)
+    //Gets all the users that have a posted quote
+    //The method sorts the data by upvots "Desc"
+    @Get('list')
+    getUsersWithQuote(){
+        return this.userService.findUsersWithQuote();
+    }
+
 }

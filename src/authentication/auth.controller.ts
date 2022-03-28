@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { User } from "src/models/users/entities/user.entity";
 import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/sign-in.dto";
@@ -22,8 +22,10 @@ export class AuthController{
 
     //ENDPOINT: /signup (Sign up to the system (username, password))
     @ApiOperation({ summary: 'Creating a new account' })
+    @ApiBadRequestResponse({ description: 'email, firstname, lastname and password must not exceed 255 characters'})
     @ApiCreatedResponse({description: 'user has successfully registered'})
     @ApiConflictResponse({description: 'User with that email already exists'})
+    @ApiBadRequestResponse({description: ''})
     @Post('signup')
     signUpLocal(@Body() signUpDto: SignUpDto): Promise<User> {
         return this.authService.signUpLocal(signUpDto);

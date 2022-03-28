@@ -1,11 +1,13 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, Sse, UnauthorizedException } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
 import { Quote } from "../quotes/entities/quote.entity";
-import { find } from "rxjs";
+import { EMPTY, find } from "rxjs";
 import { User } from "./entities/user.entity";
-import { Repository } from "typeorm";
+import { getConnection, Like, Repository } from "typeorm";
 import { UpdatePassUserDto } from "./dto/update-pass-user.dto";
+import { IsJSON, IsNotEmpty } from "class-validator";
+import { string } from "joi";
 
 @Injectable()
 export class UserService{
@@ -52,7 +54,7 @@ export class UserService{
             }    
             //Check if the user even has a quote
             if(foundUser.quote == null){
-                throw new UnauthorizedException('User doesnt have a quote, canot upvote')
+                throw new BadRequestException('User doesnt have a quote, canot upvote')
             }
             //Get the user quote
             const UsersQuote = await this.quoteRepository.preload({
@@ -75,7 +77,7 @@ export class UserService{
             }    
             //Check if the user even has a quote
             if(foundUser.quote == null){
-                throw new UnauthorizedException('User doesnt have a quote, canot downvote')
+                throw new BadRequestException('User doesnt have a quote, canot downvote')
             }
             //Get the user quote
             const UsersQuote = await this.quoteRepository.preload({
@@ -85,4 +87,28 @@ export class UserService{
             })
             return await this.userRepository.save(foundUser);
         }
-}
+
+        //ENDPOINT: /user/:id/ (List username & result of votes of a user quote)
+        async findUserById(userId: number): Promise<User>{
+            const foundUser =  await this.userRepository.findOne(userId,{
+                relations: ['quote']
+            });
+            if(!foundUser){
+                throw new NotFoundException('User doesnt exist found');
+            }
+            return foundUser;
+        }
+
+        //ENDPOINT: /list (List users and quotes in a most upvoted to least liked quotes)
+        async findUsersWithQuote(){
+            return await getConnection()
+            .getRepository(User)
+            .createQueryBuilder('users')
+            .leftJoinAndSelect('users.quote', 'quotes')
+            .orderBy('upvotes', 'DESC') //Sorts it descending
+            //ToDo: Fix where clause
+            //.where("users.quote.quote_id = :any", { any: 16 })
+            .getMany()
+        }
+
+    }

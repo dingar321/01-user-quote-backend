@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/models/users/entities/user.entity";
 import { Repository } from "typeorm";
@@ -40,6 +40,20 @@ export class AuthService{
     //ENDPOINT: /signup (Sign up to the system (username, password))
     //Info: When the user registers he has to login
     async signUpLocal(signUpDto: SignUpDto): Promise<User> {
+        //Check if given values do not exceed the set length in "user.entity.ts"
+        if(signUpDto.email.length >= 255){
+            throw new BadRequestException('email must not exceed 255 characters');
+        }
+        if(signUpDto.firstname.length >= 255){
+            throw new BadRequestException('firstname must not exceed 255 characters');
+        }
+        if(signUpDto.lastname.length >= 255){
+            throw new BadRequestException('lastname must not exceed 255 characters');
+        }
+        if(signUpDto.password.length >= 255){
+            throw new BadRequestException('password must not exceed 255 characters');
+        }
+
         //Check if user with that email already exists
         //If he does send error
         if ((await this.userRepository.findOne({ email: signUpDto.email }))){

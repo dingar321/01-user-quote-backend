@@ -4,6 +4,7 @@ import { Column, Entity, PrimaryColumnCannotBeNullableError, PrimaryGeneratedCol
 @Entity('quotes')
 export class Quote{
 
+    //uuid
     @PrimaryGeneratedColumn({name: 'quote_id'})
     quoteid: number;
 
