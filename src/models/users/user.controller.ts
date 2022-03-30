@@ -122,6 +122,7 @@ export class UserController{
     @ApiOkResponse({description: 'All users with a quote have been returned'})
     @ApiInternalServerErrorResponse({description: 'Something unexpected went wrong'})
     //Description
+    @ApiOperation({ summary: 'Returns all the users and theirs quotes' })
     //Method:
     @Get('/list')
     getUsersWithQuote(){
