@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { number } from 'joi';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -33,6 +34,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);
   
-  await app.listen(3000);
+  await app.listen(process.env.APP_PORT);
 }
 bootstrap();

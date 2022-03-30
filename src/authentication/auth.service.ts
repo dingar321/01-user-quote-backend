@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Body, ConflictException, Injectable, UnauthorizedException, ValidationPipe } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/models/users/entities/user.entity";
 import { Repository } from "typeorm";
@@ -6,8 +6,6 @@ import { SignInDto } from "./dto/sign-in.dto";
 import { SignUpDto } from "./dto/sign-up.dto";
 import * as bcrypt from 'bcrypt';
 import { JwtService } from "@nestjs/jwt";
-
-
 
 @Injectable()
 export class AuthService{
@@ -18,7 +16,7 @@ export class AuthService{
     async signInLocal(signInDto: SignInDto): Promise<string> {
         //Get user:
         const foundUser = await this.userRepository.findOne({ email: signInDto.email })
-        
+
         //Check if he exists
         if(!foundUser){
             throw new UnauthorizedException("Credentials incorrect");
@@ -34,26 +32,12 @@ export class AuthService{
 
         //Return JSON Web Token 
         //if user was authenticated and found 
-        return this.jwtService.sign({ sub: foundUser.userid, email: foundUser.email , type: 'user'}); 
+        return this.jwtService.sign({ sub: foundUser.userId, email: foundUser.email , type: 'user'}); 
     }
 
     //ENDPOINT: /signup (Sign up to the system (username, password))
     //Info: When the user registers he has to login
     async signUpLocal(signUpDto: SignUpDto): Promise<User> {
-        //Check if given values do not exceed the set length in "user.entity.ts"
-        if(signUpDto.email.length >= 255){
-            throw new BadRequestException('email must not exceed 255 characters');
-        }
-        if(signUpDto.firstname.length >= 255){
-            throw new BadRequestException('firstname must not exceed 255 characters');
-        }
-        if(signUpDto.lastname.length >= 255){
-            throw new BadRequestException('lastname must not exceed 255 characters');
-        }
-        if(signUpDto.password.length >= 255){
-            throw new BadRequestException('password must not exceed 255 characters');
-        }
-
         //Check if user with that email already exists
         //If he does send error
         if ((await this.userRepository.findOne({ email: signUpDto.email }))){

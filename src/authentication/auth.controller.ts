@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiConflictResponse, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { User } from "src/models/users/entities/user.entity";
 import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/sign-in.dto";
@@ -11,22 +11,28 @@ export class AuthController{
     constructor(private authService: AuthService){}
 
     //ENDPOINT: /login (Logs in an existing user with a password)
-    @ApiOperation({ summary: 'Logging in an existing account (Authentication)' })
+    //Responses:
     @ApiOkResponse({description: 'User has successfully logged in'})
-    @ApiNotFoundResponse({description: "User doesnt exists"})
-    @ApiUnauthorizedResponse({description: "User is not authorized, wrong password or email"})
-    @Post('login')
+    @ApiBadRequestResponse({ description: 'Values must be provided in the correct format'})
+    @ApiInternalServerErrorResponse({description: 'Something unexpected went wrong'})
+    //Description
+    @ApiOperation({ summary: 'Logging in an existing account (Authentication)' })
+    //Method:
+    @Post('/login')
     signInLocal(@Body() signInDto: SignInDto): Promise<string> {
         return this.authService.signInLocal(signInDto);
     }
 
     //ENDPOINT: /signup (Sign up to the system (username, password))
-    @ApiOperation({ summary: 'Creating a new account' })
-    @ApiBadRequestResponse({ description: 'email, firstname, lastname and password must not exceed 255 characters'})
+    //Responses:
     @ApiCreatedResponse({description: 'user has successfully registered'})
+    @ApiBadRequestResponse({ description: 'Values must be provided in the correct format'})
     @ApiConflictResponse({description: 'User with that email already exists'})
-    @ApiBadRequestResponse({description: ''})
-    @Post('signup')
+    @ApiInternalServerErrorResponse({description: 'Something unexpected went wrong'})
+    //Description
+    @ApiOperation({ summary: 'Creating a new account' })
+    //Method:
+    @Post('/signup')
     signUpLocal(@Body() signUpDto: SignUpDto): Promise<User> {
         return this.authService.signUpLocal(signUpDto);
     }

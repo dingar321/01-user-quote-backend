@@ -6,7 +6,7 @@ export class Quote{
 
     //uuid
     @PrimaryGeneratedColumn({name: 'quote_id'})
-    quoteid: number;
+    quoteId: number;
 
     @Column({
         name: 'content',

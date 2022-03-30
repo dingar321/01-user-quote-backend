@@ -6,7 +6,7 @@ export class User{
 
     //uuid
     @PrimaryGeneratedColumn({name: 'user_id'})
-    userid: number;
+    userId: number;
 
     @Column({
         name: 'email',
@@ -18,27 +18,26 @@ export class User{
     email: string;
 
     @Column({
-        name: 'firstname',
+        name: 'first_name',
         type: 'varchar',
         length: 255,
         nullable: false
     })
-    firstname: string;
+    firstName: string;
 
     @Column({
-        name: 'lastname',
+        name: 'last_name',
         type: 'varchar',
         length: 255,
         nullable: false
     })
-    lastname: string;
+    lastName: string;
 
     @Column({
         name: 'password',
         type: 'varchar',
         length: 255,
         nullable: false,
-        select: false 
     })
     password: string;
 
@@ -50,7 +49,7 @@ export class User{
         cascade: true
     })
     @JoinColumn({
-        name: 'quote'
+        name: 'quote_tk'
     })
-    quote: Quote;
+    quoteTk: Quote;
 }

@@ -10,10 +10,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      //Doesnt work: ToDO: Fix
-      //envFilePath: 'src/enviroment/.env',
+      isGlobal: true, 
       ignoreEnvFile: false,
       validationSchema: Joi.object({
+        //Setting all the required settigns from our ".env" file
         POSTGRES_HOST: Joi.string().required(),
         POSTGRES_PORT: Joi.number().default(5432),
       }),
