@@ -31,13 +31,13 @@ The most important requirement is the [node.js](https://nodejs.org/en/) framewor
 Library installation command: </br>
 `npm install --save @nestjs/jwt passport-jwt` </br>
 `npm install --save-dev @types/passport-jwt` </br>
-`npm  i -S @nestjs/passport` </br>
+`npm install -Save @nestjs/passport` </br>
 
 - <b>TypeORM:</b> a tool that maps entities to database tables, works really well with PostgreSQL </br>
 [One-to-one relations using TypeORM and how to handle them](https://github.com/typeorm/typeorm/blob/master/docs/one-to-one-relations.md), [Cascades and how to handle them using TypeORM](https://github.com/typeorm/typeorm/blob/master/docs/relations.md#cascades) <br>
 A good read: [Why working with UUIDs instead of IDs is better](https://itnext.io/why-working-with-uuids-instead-of-ids-is-better-b60d22caf601) <br>
 Library installation command: </br>
-`$ npm i --save @nestjs/typeorm typeorm`<br>
+`$ npm install --save @nestjs/typeorm typeorm`<br>
 
 - <b>Swagger:</b> a language-agnostic format used to describe and test RESTful APIs </br>
 [Documentation for setup](https://docs.nestjs.com/openapi/introduction), [A guide to enable token setup in Swagger](https://www.youtube.com/watch?v=r0TP4DdXeIk), [A guide on how to use](https://docs.nestjs.com/openapi/types-and-parameters#types-and-parameters) <br>
@@ -49,8 +49,14 @@ Library installation command: </br>
 [Good read for safety tips](https://codahale.com/how-to-safely-store-a-password/) </br>
 Import: `import * as bcrypt from 'bcrypt';`</br> 
 Library installation command:  </br> 
-`$ npm i bcrypt` </br>
-`$ npm i -D @types/bcrypt` </br>
+`npm install bcrypt` </br>
+`npm install -D @types/bcrypt` </br>
+
+- <b>CORS:</b> Cross-origin resource sharing (CORS) is a mechanism that allows resources to be requested from another domain <br>
+[Good explenation](https://www.youtube.com/watch?v=PNtFSVU-YTI) </br>
+Library installation command: </br> 
+`npm install cors`
+
 <!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
 # License:
 This assignment is protected with SkillUp Mentor copyright. The Candidate may upload the assignment on his closed profile on GitHub (or other platform), but any other reproduction and distribution of the assignment itself or the assignment’s solutions without written permission of SkillUp Mentor is prohibited.

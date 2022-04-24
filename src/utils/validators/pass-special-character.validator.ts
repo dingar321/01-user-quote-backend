@@ -6,10 +6,10 @@ import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface 
 
 @ValidatorConstraint({ name: 'IsOneSpecialChar', async: false })
 export class IsOneSpecialChar implements ValidatorConstraintInterface {
-   
-  validate(password: string, args: ValidationArguments) {
-      if (password.match(/[^a-zA-Z0-9_]/) ){
-        return true;
+
+   validate(password: string, args: ValidationArguments) {
+      if (password.match(/[^a-zA-Z0-9-._]/)) {
+         return true;
       }
       return false
    }

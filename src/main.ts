@@ -5,6 +5,7 @@ import { number } from 'joi';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  //Remove cors (HELMET )
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({
     //Unwanted and invalid properties
@@ -21,7 +22,7 @@ async function bootstrap() {
     .setTitle('01-user-quote')
     .setDescription('The first project in the "SkillUp Mentor" program')
     .setVersion('1.0.0')
-    .addBearerAuth({ 
+    .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
       bearerFormat: 'JWT',
@@ -29,11 +30,19 @@ async function bootstrap() {
       description: 'Enter JWT token',
       in: 'header',
     },
-      'jwtToken',)
+      'jwtToken')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);
-  
+
+  //Access-Control-Allow-Origin
+  var cors = require('cors');
+  app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+  }));
+
+
   await app.listen(process.env.APP_PORT);
 }
 bootstrap();

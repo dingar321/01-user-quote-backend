@@ -2,20 +2,22 @@ import internal from "stream";
 import { Column, Entity, PrimaryColumnCannotBeNullableError, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('quotes')
-export class Quote{
+export class Quote {
 
     //uuid
-    @PrimaryGeneratedColumn({name: 'quote_id'})
+    @PrimaryGeneratedColumn({ name: 'quote_id' })
     quoteId: number;
+
 
     @Column({
         name: 'content',
         type: "varchar",
         length: 300,
         nullable: false
-        
+
     })
     content: string;
+
 
     @Column({
         name: 'upvotes',
@@ -24,4 +26,11 @@ export class Quote{
     })
     upvotes: number;
 
+
+    @Column({
+        name: 'posted',
+        type: 'timestamptz',
+        nullable: false
+    }) // Recommended
+    posted: Date;
 }
