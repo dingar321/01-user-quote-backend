@@ -1,5 +1,5 @@
-import internal from "stream";
-import { Column, Entity, PrimaryColumnCannotBeNullableError, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/models/users/entities/user.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity('quotes')
 export class Quote {
@@ -20,17 +20,27 @@ export class Quote {
 
 
     @Column({
-        name: 'upvotes',
+        name: 'votes',
         type: 'int',
         nullable: false
     })
-    upvotes: number;
-
+    votes: number;
 
     @Column({
-        name: 'posted',
-        type: 'timestamptz',
-        nullable: false
+        name: 'created',
+        type: 'timestamp'
     }) // Recommended
-    posted: Date;
+    created: Timestamp;
+
+
+    //1:1 relation 
+    //user 1--m quote
+    @ManyToOne(type => User, {
+        nullable: false,
+        cascade: true
+    })
+    @JoinColumn({
+        name: 'user_tk'
+    })
+    userTk: User;
 }

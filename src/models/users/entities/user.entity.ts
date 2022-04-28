@@ -1,11 +1,14 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Quote } from "../../quotes/entities/quote.entity";
 
+
+import { Exclude } from 'class-transformer';
+
 @Entity('users')
-export class User{
+export class User {
 
     //uuid
-    @PrimaryGeneratedColumn({name: 'user_id'})
+    @PrimaryGeneratedColumn({ name: 'user_id' })
     userId: number;
 
     @Column({
@@ -41,15 +44,30 @@ export class User{
     })
     password: string;
 
+    @Column("int", { array: true, default: {} })
+    upvotes: Number[];
 
-    //1:1 relation 
-    //user <--> quote
-    @OneToOne(type => Quote, {
-        nullable: true, 
-        cascade: true
+    @Column("int", { array: true, default: {} })
+    downvotes: Number[];
+
+
+    /* 
+        //1:1 relation 
+        //user <--> quote
+        @OneToOne(type => Quote, {
+            nullable: true, 
+            cascade: true
+        })
+        @JoinColumn({
+            name: 'quote_tk'
+        })
+        quoteTk: Quote;
+    
+
+    @ManyToMany(() => Quote, {
+        cascade: true,
     })
-    @JoinColumn({
-        name: 'quote_tk'
-    })
-    quoteTk: Quote;
+    @JoinTable()
+    quotes: Quote;
+    */
 }

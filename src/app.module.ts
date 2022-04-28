@@ -10,7 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, 
+      isGlobal: true,
       ignoreEnvFile: false,
       validationSchema: Joi.object({
         //Setting all the required settigns from our ".env" file
@@ -33,8 +33,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       //NOTICE: Disable in production!
       synchronize: true,
-  })],
+    })],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
