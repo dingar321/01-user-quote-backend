@@ -9,6 +9,7 @@ import { PostQuoteDto } from "../quotes/dto/Post-quote.dto";
 import console, { timeStamp } from "console";
 import { timestamp } from "rxjs";
 import { number } from "joi";
+import { UpdateNameUserDto } from "./dto/name-update-user.dto";
 
 
 @Injectable()
@@ -32,7 +33,7 @@ export class UserService {
     }
 
     //ENDPOINT: /me/update-password (Update the current users password)
-    async updatePassUser(userId: number, updatePassUser: UpdatePassUserDto): Promise<User> {
+    async updatePasswordUser(userId: number, updatePassUser: UpdatePassUserDto): Promise<User> {
         const foundUser = await this.userRepository.findOne({
             where: {
                 userId: userId,
@@ -43,7 +44,6 @@ export class UserService {
             throw new NotFoundException('User doesnt exist found')
         }
 
-
         const isMatch = await bcrypt.compare(updatePassUser.password, foundUser.password);
         //Checks if new and old password are the same
         if (isMatch) {
@@ -53,6 +53,27 @@ export class UserService {
         foundUser.password = await bcrypt.hash(updatePassUser.password, await bcrypt.genSalt());
         return this.userRepository.save(foundUser);
     }
+
+    //ENDPOINT: /me/update-password (Update the current users password)
+    async updateUserName(userId: number, updateNameUser: UpdateNameUserDto): Promise<User> {
+        const foundUser = await this.userRepository.findOne({
+            where: {
+                userId: userId,
+            }
+        });
+
+        if (!foundUser) {
+            throw new NotFoundException('User doesnt exist found')
+        }
+        else {
+            foundUser.lastName = updateNameUser.lastName;
+            foundUser.firstName = updateNameUser.firstName;
+        }
+
+        return this.userRepository.save(foundUser);
+    }
+
+
 
     //ENDPOINT: /me (Get the currently logged in user information)
     async findLoggedUserkarma(userId: number): Promise<number> {

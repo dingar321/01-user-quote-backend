@@ -3,6 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBadRequestResponse, ApiBearerAuth, ApiConflictResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { GetAuthUser } from "src/utils/decorators/get-auth-user.decorator";
 import { PostQuoteDto } from "../quotes/dto/Post-quote.dto";
+import { UpdateNameUserDto } from "./dto/name-update-user.dto";
 import { UpdatePassUserDto } from "./dto/pass-update-user.dto";
 import { UserService } from "./user.service";
 import { User } from "c:/Users/Dino/Documents/GitHub/01-user-quote-backend/src/models/users/entities/user.entity";
@@ -35,14 +36,32 @@ export class UserController {
     @ApiBadRequestResponse({ description: 'Values must be provided in the correct format' })
     @ApiInternalServerErrorResponse({ description: 'Something unexpected went wrong' })
     //Description:
-    @ApiOperation({ summary: 'Password has been sucessfully changed' })
+    @ApiOperation({ summary: 'Updates the logged users password' })
     //Method:
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
-    @Patch('me/password-change/:id')
+    @Patch('me/password-change')
     patchPassUser(@GetAuthUser() userId: number, @Body() updatePassUserDto: UpdatePassUserDto): Promise<User> {
-        return this.userService.updatePassUser(userId, updatePassUserDto);
+        return this.userService.updatePasswordUser(userId, updatePassUserDto);
     }
+
+    //ENDPOINT: /me/update-password (Update the current users password)
+    //Edits the password of a specific user in the database with a specified id
+    //Responses:
+    @ApiOkResponse({ description: 'The user with the specified id has been found and the password has been updated' })
+    @ApiUnauthorizedResponse({ description: 'User must be authenticated/logged in to acces the endpoint' })
+    @ApiBadRequestResponse({ description: 'Values must be provided in the correct format' })
+    @ApiInternalServerErrorResponse({ description: 'Something unexpected went wrong' })
+    //Description:
+    @ApiOperation({ summary: 'Updates the logged users full name' })
+    //Method:
+    @ApiBearerAuth('jwtToken')
+    @UseGuards(AuthGuard('jwtToken'))
+    @Patch('me/name-change')
+    patchEmailUser(@GetAuthUser() userId: number, @Body() updateNameUser: UpdateNameUserDto): Promise<User> {
+        return this.userService.updateUserName(userId, updateNameUser);
+    }
+
 
 
     //Responses:

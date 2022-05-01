@@ -13,6 +13,17 @@ export class QuoteController {
     constructor(private readonly quoteService: QuoteService) { }
 
 
+    @ApiOkResponse({ description: 'Quote has been returned' })
+    @ApiInternalServerErrorResponse({ description: 'Something unexpected went wrong' })
+    //Description
+    @ApiOperation({ summary: 'Returns the specified quote by id' })
+    //Method:
+    @Get('/:id/quote')
+    getQuoteById(@Param('id') quoteId: number) {
+        return this.quoteService.finQuoteById(quoteId);
+    }
+
+
     @ApiBearerAuth('jwtToken')
     @UseGuards(AuthGuard('jwtToken'))
     @ApiOkResponse({ description: 'All users upvoted quotes have been returned' })

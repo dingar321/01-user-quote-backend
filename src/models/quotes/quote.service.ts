@@ -16,6 +16,13 @@ export class QuoteService {
         @InjectRepository(User) private readonly userRepository: Repository<User>,) { }
 
 
+    async finQuoteById(quoteId: number) {
+        return await this.quoteRepository.find({
+            where: { quoteId: quoteId },
+            relations: ['userTk']
+        })
+    }
+
     async findUserUpvotedQuotes(userId: number) {
 
         //First lets get the users upvotes !
