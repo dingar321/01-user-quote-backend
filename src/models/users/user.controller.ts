@@ -45,10 +45,8 @@ export class UserController {
         return this.userService.updatePasswordUser(userId, updatePassUserDto);
     }
 
-    //ENDPOINT: /me/update-password (Update the current users password)
-    //Edits the password of a specific user in the database with a specified id
-    //Responses:
-    @ApiOkResponse({ description: 'The user with the specified id has been found and the password has been updated' })
+    //ENDPOINT: /me/update-change (Update the current users full name)
+    @ApiOkResponse({ description: 'The user with the specified id has been found and the full name has been updated' })
     @ApiUnauthorizedResponse({ description: 'User must be authenticated/logged in to acces the endpoint' })
     @ApiBadRequestResponse({ description: 'Values must be provided in the correct format' })
     @ApiInternalServerErrorResponse({ description: 'Something unexpected went wrong' })

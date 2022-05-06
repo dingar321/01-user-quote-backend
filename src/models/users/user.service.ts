@@ -65,10 +65,9 @@ export class UserService {
         if (!foundUser) {
             throw new NotFoundException('User doesnt exist found')
         }
-        else {
-            foundUser.lastName = updateNameUser.lastName;
-            foundUser.firstName = updateNameUser.firstName;
-        }
+
+        foundUser.lastName = updateNameUser.lastName;
+        foundUser.firstName = updateNameUser.firstName;
 
         return this.userRepository.save(foundUser);
     }
