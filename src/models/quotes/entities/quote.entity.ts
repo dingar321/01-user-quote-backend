@@ -33,7 +33,6 @@ export class Quote {
     created: Timestamp;
 
 
-    //1:1 relation 
     //user 1--m quote
     @ManyToOne(type => User, {
         nullable: false,

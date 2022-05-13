@@ -11,11 +11,11 @@ import { JwtStrategy } from "./strategy/jwt.strategy";
 //https://jwt.io/
 
 @Module({
-    imports:[TypeOrmModule.forFeature([User]),
+    imports: [TypeOrmModule.forFeature([User]),
     JwtModule.register({
         secret: 'D1FBED8EAEB7E37694B42C0BB7B4B93B275A44DB66436DBFEAE6D89BF80C57D5',
     })],
     controllers: [AuthController],
     providers: [AuthService, JwtStrategy],
 })
-export class AuthModule{}
+export class AuthModule { }

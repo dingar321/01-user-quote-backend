@@ -5,22 +5,27 @@ import { number } from 'joi';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  //Remove cors (HELMET )
   const app = await NestFactory.create(AppModule);
+
+
   app.useGlobalPipes(new ValidationPipe({
-    //Unwanted and invalid properties
-    //when creating new users (registering !)
     whitelist: true,
-    //If enabled it will return a bad request
     forbidNonWhitelisted: true,
     transform: true,
 
   }));
 
+
+
   //Setup for "Swagger" testing
+
+
   const config = new DocumentBuilder()
     .setTitle('01-user-quote')
-    .setDescription('The first project in the "SkillUp Mentor" program')
+    .setDescription
+    (
+      'The first project in the "SkillUp Mentor" program'
+    )
     .setVersion('1.0.0')
     .addBearerAuth({
       type: 'http',
@@ -33,7 +38,11 @@ async function bootstrap() {
       'jwtToken')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/', app, document);
+
+  SwaggerModule.setup('/', app, document, {
+    swaggerOptions: { defaultModelsExpandDepth: -1 },
+  });
+
 
   //Access-Control-Allow-Origin
   var cors = require('cors');
